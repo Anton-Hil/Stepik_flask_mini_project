@@ -5,6 +5,19 @@
     <title>Title</title>
 </head>
 <body>
-Hello app
+{% block content %}
+<div class="content">
+    {% block app_content %}
+
+    {% endblock %}
+
+    {% block tools %}
+
+    {% endblock %}
+</div>
+{% endblock %}
 </body>
+{% block scripts %}
+ <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css"/>
+{% endblock %}
 </html>
