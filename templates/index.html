@@ -1,5 +1,9 @@
 {% extends 'base.html'%}
 
 {% block app_content %}
-    <a class="btn btn-primary " href="{{url_for('game_page')}}">Start</a>
+    <a href="{{url_for('game_page')}}">Start</a>
+{% endblock %}
+
+{% block tools %}
+    <a class="btn btn-info " href="{{url_for('settings')}}">Settings</a>
 {% endblock %}
