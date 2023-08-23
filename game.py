@@ -26,6 +26,7 @@ class Player(GameObject, metaclass=SingletonMeta):
         super().__init__()
         self.key_count = 0
         self.dead = False
+        self.view_range = 2
 
     def __repr__(self):
         return 'P'
@@ -47,18 +48,20 @@ class Exit(GameObject):
 
 
 class Game(metaclass=SingletonMeta):
-    def __init__(self, height=20, width=20, enemies=None, keys=None):
+    __difficulty_choice = {'easy': (0.05, 0.025),
+                           'normal': (0.1, 0.05),
+                           'hard': (0.2, 0.1)}
+
+    def __init__(self, height=20, width=20, difficulty=None):
         self.height = height
         self.width = width
         self.round_count = 0
-        if enemies is None:
-            self.enemies = ceil(((self.height * self.width) - 2) * 0.025)
+        if difficulty is None:
+            difficulty = self.__difficulty_choice.get('normal')
         else:
-            self.enemies = enemies
-        if keys is None:
-            self.keys = ceil(((self.height * self.width) - 2) * 0.0125)
-        else:
-            self.keys = keys
+            difficulty = self.__difficulty_choice.get(difficulty.lower())
+        self.enemies = ceil(((self.height * self.width) - 2) * difficulty[0])
+        self.keys = ceil(((self.height * self.width) - 2) * difficulty[1])
         self.field = self.__generate_field()
         self._field_status = []
         self.game_over_status = False
@@ -111,12 +114,13 @@ class Game(metaclass=SingletonMeta):
         objects = filter(lambda x: isinstance(x, cls), self._field_status)
         for obj in objects:
             valid_directions = self.__get_valid_directions(obj, directions)
-            if direction is None:
+            if direction is None and cls != Player:
                 try:
                     direction = directions.get(choice(valid_directions))
                 except IndexError:
                     direction = (0, 0)
             else:
+                direction = direction.lower()
                 if direction not in valid_directions:
                     return False
                 else:
@@ -141,22 +145,21 @@ class Game(metaclass=SingletonMeta):
                     elif case == Exit:
                         self.game_over_status = True
 
-
-a = Game(5, 5)
-b = Player()
-a.populate_field(b)
-while not a.game_over_status:
-    print()
-    print(*a.field, sep='\n')
-    while True:
-        flag = a.move(Player, input('Set direction'))
-        if flag:
-            break
-        else:
-            print('choose another direction')
-    a.update_player_status()
-    a.move(Enemy)
-    a.update_player_status()
-print()
-print(*a.field, sep='\n')
-print(f'Final score {Player().key_count}')
+# a = Game(5, 5)
+# b = Player()
+# a.populate_field(b)
+# while not a.game_over_status:
+#     print()
+#     print(*a.field, sep='\n')
+#     while True:
+#         flag = a.move(Player, input('Set direction \n'))
+#         if flag:
+#             break
+#         else:
+#             print('choose another direction')
+#     a.update_player_status()
+#     a.move(Enemy)
+#     a.update_player_status()
+# print()
+# print(*a.field, sep='\n')
+# print(f'Final score {Player().key_count}')
