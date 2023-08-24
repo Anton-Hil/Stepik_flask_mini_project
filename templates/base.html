@@ -5,14 +5,24 @@
     <title>Title</title>
 </head>
 <body>
-{% block content %}
+{% block base_block %}
 <div>
-    {% block app_content %}
+    {% block nav_bar %}
+    <div>
 
+    </div>
+    {% endblock %}
+
+    {% block content %}
+    <div>
+
+    </div>
     {% endblock %}
 
     {% block tools %}
+    <div>
 
+    </div>
     {% endblock %}
 </div>
 {% endblock %}

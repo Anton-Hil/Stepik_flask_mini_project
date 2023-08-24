@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block nav_bar %}
+<a  href="{{ url_for('index') }}">Home</a>
+{% endblock %}
+
+{% block content %}
+<p>Game over</p>
+<p>Your score {{player.key_count}}</p>
+{% endblock %}

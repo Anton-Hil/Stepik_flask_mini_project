@@ -1,9 +1,37 @@
 {% extends 'base.html' %}
 
-{% block app_content %}
-
+{% block nav_bar %}
 <a href="{{ url_for('index') }}" >Home</a>
+{% endblock %}
 
-<a href="{{ url_for('game_page') }}">Next turn</a>
+{% block content %}
+<table>
+{% for row in game.field %}
+    <tr>
+    {% for item in row %}
+        <td>
+            {{item}}
+        </td>
+    {% endfor %}
+    </tr>
+{% endfor %}
+</table>
+{% endblock %}
 
+{% block tools %}
+<form action="" method="post">
+{{ form.csrf_token() }}
+<table>
+{% for subfield in form.direction %}
+    <tr>
+        <td>{{ subfield.label }}</td>
+        <td>{{ subfield }}</td>
+    </tr>
+{% endfor %}
+</table>
+{% for error in form.direction.errors %}
+    {{error}}
+{% endfor %}
+{{form.submit}}
+</form>
 {% endblock %}
