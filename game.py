@@ -22,8 +22,8 @@ class GameObject:
 
 
 class Player(GameObject, metaclass=SingletonMeta):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, row=0, col=0):
+        super().__init__(row, col)
         self.key_count = 0
         self.dead = False
         self.view_range = 2
@@ -97,12 +97,9 @@ class Game(metaclass=SingletonMeta):
             valid_directions.append(direction)
         return valid_directions
 
-    def populate_field(self, player):
+    def populate_field(self):
         system = [(row, col) for col in range(self.width) for row in range(self.height)]
-        self.field[player.row][player.col] = Player()
-        if Player() not in self._field_status:
-            self._field_status.append(player)
-        system.remove((player.row, player.col))
+        self.__place_object(Player, self.__get_position(system))
         self.__place_object(Exit, self.__get_position(system))
         for _ in range(self.keys):
             self.__place_object(Key, self.__get_position(system))
@@ -116,17 +113,17 @@ class Game(metaclass=SingletonMeta):
             valid_directions = self.__get_valid_directions(obj, directions)
             if direction is None and cls != Player:
                 try:
-                    direction = directions.get(choice(valid_directions))
+                    target_direction = directions.get(choice(valid_directions))
                 except IndexError:
-                    direction = (0, 0)
+                    target_direction = (0, 0)
             else:
                 direction = direction.lower()
                 if direction not in valid_directions:
                     return False
                 else:
-                    direction = directions.get(direction)
+                    target_direction = directions.get(direction)
             self.field[obj.row][obj.col] = 0
-            obj.move_object(*direction)
+            obj.move_object(*target_direction)
             self.field[obj.row][obj.col] = obj
         return True
 
@@ -144,22 +141,3 @@ class Game(metaclass=SingletonMeta):
                         self._field_status.remove(obj)
                     elif case == Exit:
                         self.game_over_status = True
-
-# a = Game(5, 5)
-# b = Player()
-# a.populate_field(b)
-# while not a.game_over_status:
-#     print()
-#     print(*a.field, sep='\n')
-#     while True:
-#         flag = a.move(Player, input('Set direction \n'))
-#         if flag:
-#             break
-#         else:
-#             print('choose another direction')
-#     a.update_player_status()
-#     a.move(Enemy)
-#     a.update_player_status()
-# print()
-# print(*a.field, sep='\n')
-# print(f'Final score {Player().key_count}')
