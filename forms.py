@@ -7,10 +7,10 @@ class ChooseDirectionForm(FlaskForm):
     direction = RadioField(label='Choose direction',
                            choices=['Up',
                                     'Down',
-                                    'Lef',
+                                    'Left',
                                     'Right'],
                            coerce=str,
-                           validators=[InputRequired]
+                           validators=[InputRequired()]
                            )
     submit = SubmitField('Submit')
 
@@ -18,11 +18,11 @@ class ChooseDirectionForm(FlaskForm):
 class SettingsForm(FlaskForm):
     field_height = IntegerField(label='Field height',
                                 default=20,
-                                validators=[InputRequired, NumberRange(min=2)]
+                                validators=[InputRequired(), NumberRange(min=2)]
                                 )
     field_width = IntegerField(label='Field width',
                                default=20,
-                               validators=[InputRequired, NumberRange(min=2)]
+                               validators=[InputRequired(), NumberRange(min=2)]
                                )
     difficulty = SelectField(label='Choose difficulty',
                              choices=['Easy',
@@ -30,6 +30,6 @@ class SettingsForm(FlaskForm):
                                       'Hard'
                                       ],
                              default='Normal',
-                             validators=[InputRequired]
+                             validators=[InputRequired()]
                              )
     submit = SubmitField('Submit')
