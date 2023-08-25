@@ -31,6 +31,10 @@ class Player(GameObject, metaclass=SingletonMeta):
     def __repr__(self):
         return 'P'
 
+    def remove_player(self):
+        del SingletonMeta.instance[Player]
+        del self
+
 
 class Enemy(GameObject):
     def __repr__(self):
@@ -141,3 +145,21 @@ class Game(metaclass=SingletonMeta):
                         self._field_status.remove(obj)
                     elif case == Exit:
                         self.game_over_status = True
+
+    def reset_field(self):
+        self.field = self.__generate_field()
+        self._field_status = []
+        self.game_over_status = False
+        self.round_count = 0
+        Player().remove_player()
+
+    def update_parameters(self, height=20, width=20, difficulty=None):
+        self.height = height
+        self.width = width
+        if difficulty is None:
+            difficulty = self.__difficulty_choice.get('normal')
+        else:
+            difficulty = self.__difficulty_choice.get(difficulty.lower())
+        self.enemies = ceil(((self.height * self.width) - 2) * difficulty[0])
+        self.keys = ceil(((self.height * self.width) - 2) * difficulty[1])
+        self.field = self.__generate_field()
