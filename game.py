@@ -26,7 +26,7 @@ class Player(GameObject, metaclass=SingletonMeta):
         super().__init__(row, col)
         self.key_count = 0
         self.dead = False
-        self.view_range = 2
+        self.view_range = 3
 
     def __repr__(self):
         return 'P'
@@ -163,3 +163,7 @@ class Game(metaclass=SingletonMeta):
         self.enemies = ceil(((self.height * self.width) - 2) * difficulty[0])
         self.keys = ceil(((self.height * self.width) - 2) * difficulty[1])
         self.field = self.__generate_field()
+
+    @staticmethod
+    def calculate_dist(row1, col1, row2, col2):
+        return max(abs(row1 - row2), abs(col1 - col2))

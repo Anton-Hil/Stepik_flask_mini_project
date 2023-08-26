@@ -37,6 +37,7 @@ def settings():
 
 @app.route('/game/<int:turn_id>', methods=['get', 'post'])
 def game_page(turn_id):
+    player = Player()
     game = Game()
     if game.game_over_status:
         return redirect(url_for('game_over_page'))
@@ -47,7 +48,7 @@ def game_page(turn_id):
     else:
         form = ChooseDirectionForm()
         if request.method == 'GET':
-            return render_template('game.html', game=game, form=form)
+            return render_template('game.html', game=game, form=form, player=player)
         if request.method == 'POST':
             move_status = 0
             if form.validate_on_submit():
