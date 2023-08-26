@@ -5,13 +5,33 @@
 {% endblock %}
 
 {% block content %}
-<table>
-{% for row in game.field %}
+<table class="field">
+{% for row in range(game.field|length) %}
     <tr>
-    {% for item in row %}
-        <td>
-            {{item}}
-        </td>
+    {% for col in range(game.field[0]|length) %}
+        {% set cell = game.field[row][col].__repr__()%}
+        {% set dist = game.calculate_dist(row, col, player.row, player.col)%}
+        {% if dist <= player.view_range%}
+            {% if cell == 'P'%}
+                <td class="cell cell-player">
+                </td>
+            {% elif cell == 'E' %}
+                <td class="cell cell-enemy">
+                </td>
+            {% elif cell == 'X' %}
+                <td class="cell cell-exit">
+                </td>
+            {% elif cell == 'K' %}
+                <td class="cell cell-key">
+                </td>
+            {% else %}
+                <td class="cell">
+                </td>
+            {% endif %}
+        {% else %}
+            <td class="cell cell-fog">
+            </td>
+        {% endif %}
     {% endfor %}
     </tr>
 {% endfor %}
