@@ -6,25 +6,29 @@
 </head>
 <body>
 {% block base_block %}
-<div>
-    {% block nav_bar %}
-    <div>
+    <div class="header">
+        {% block nav_bar %}
 
+        {% endblock %}
     </div>
-    {% endblock %}
 
+    <div class="content">
     {% block content %}
-    <div>
 
-    </div>
     {% endblock %}
+    </div>
 
+    <div class="footer">
     {% block tools %}
-    <div>
 
-    </div>
     {% endblock %}
-</div>
+    </div>
+
 {% endblock %}
 </body>
+
+{% block scripts %}
+<link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
 </html>
