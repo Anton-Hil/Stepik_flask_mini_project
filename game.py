@@ -59,7 +59,6 @@ class Game(metaclass=SingletonMeta):
     def __init__(self, height=20, width=20, difficulty=None):
         self.height = height
         self.width = width
-        self.round_count = 0
         if difficulty is None:
             difficulty = self.__difficulty_choice.get('normal')
         else:
@@ -150,7 +149,6 @@ class Game(metaclass=SingletonMeta):
         self.field = self.__generate_field()
         self._field_status = []
         self.game_over_status = False
-        self.round_count = 0
         Player().remove_player()
 
     def update_parameters(self, height=20, width=20, difficulty=None):

@@ -32,7 +32,7 @@ def settings():
             game.update_parameters(form.field_height.data,
                                    form.field_width.data,
                                    form.difficulty.data)
-        return redirect(url_for('settings'))
+        return redirect(url_for('index'))
 
 
 @app.route('/game/<int:turn_id>', methods=['get', 'post'])
