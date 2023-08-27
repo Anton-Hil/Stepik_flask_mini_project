@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block nav_bar %}
-<a href="{{ url_for('clear') }}" >Home</a>
+<a class="button-18" href="{{ url_for('clear') }}" >Home</a>
 {% endblock %}
 
 {% block content %}
@@ -39,19 +39,20 @@
 {% endblock %}
 
 {% block tools %}
-<form action="" method="post">
+<form class="form-direction" action="" method="post">
 {{ form.csrf_token() }}
-<table>
+<div class="label-block">
 {% for subfield in form.direction %}
-    <tr>
-        <td>{{ subfield.label }}</td>
-        <td>{{ subfield }}</td>
-    </tr>
+        <div class='label-direction'>
+        {{ subfield }} {{ subfield.label }}
+        </div>
 {% endfor %}
-</table>
+
 {% for error in form.direction.errors %}
     {{error}}
 {% endfor %}
-{{form.submit}}
+</div>
+
+{{form.submit(class_='direction-submit')}}
 </form>
 {% endblock %}
